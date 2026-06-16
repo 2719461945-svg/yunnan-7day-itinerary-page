@@ -7,17 +7,27 @@
   <link rel="icon" type="image/png" href="assets/images/favicon.png" />
   <style>
     :root {
-      --bg:#f6f8f7;
+      --bg:#f4f7f4;
       --surface:#ffffff;
       --surface-2:#eef4f2;
+      --surface-warm:#fffaf2;
       --ink:#142733;
       --muted:#607078;
-      --line:#d9e2df;
-      --teal:#236f78;
-      --pine:#3d6f54;
-      --clay:#a05f42;
-      --gold:#a47b39;
+      --soft:#7c8b88;
+      --line:#d8e1dd;
+      --line-strong:#bdccc6;
+      --teal:#1f6b72;
+      --teal-2:#dcecea;
+      --pine:#3f714f;
+      --clay:#b76543;
+      --clay-2:#f7e6d8;
+      --gold:#a77b32;
+      --gold-2:#fff2cf;
       --blue:#2e5f87;
+      --blue-2:#eaf2f8;
+      --rice:#edf2df;
+      --shadow:0 10px 30px rgba(31,63,61,.09);
+      --shadow-soft:0 6px 20px rgba(31,63,61,.07);
       --radius:8px;
       font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
     }
@@ -25,24 +35,31 @@
     html { scroll-behavior:smooth; }
     body {
       margin:0;
-      background:var(--bg);
+      background:
+        linear-gradient(180deg,#fbfaf5 0,#eef5f2 38%,#f8f4ec 100%);
       color:var(--ink);
       letter-spacing:0;
       -webkit-font-smoothing:antialiased;
       text-rendering:optimizeLegibility;
     }
-    button { font:inherit; color:inherit; }
+    button {
+      font:inherit;
+      color:inherit;
+      -webkit-tap-highlight-color:transparent;
+    }
     img { display:block; max-width:100%; }
     .app {
       max-width:980px;
       margin:0 auto;
-      background:var(--bg);
+      background:linear-gradient(180deg,#f8faf7 0,#f4f7f4 52%,#f7f3eb 100%);
       min-height:100vh;
     }
     .top {
-      padding:calc(14px + env(safe-area-inset-top)) 14px 12px;
-      background:linear-gradient(180deg,#f9fbfa 0%,#f0f5f3 100%);
+      padding:calc(16px + env(safe-area-inset-top)) 14px 16px;
+      background:
+        linear-gradient(135deg,rgba(255,250,242,.96) 0%,rgba(238,246,241,.98) 54%,rgba(232,241,238,.96) 100%);
       border-bottom:1px solid var(--line);
+      overflow:hidden;
     }
     .meta {
       display:flex;
@@ -52,19 +69,83 @@
       color:var(--muted);
       font-size:12px;
       line-height:1.45;
+      margin-bottom:12px;
+    }
+    .eyebrow {
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      min-height:28px;
+      padding:5px 9px;
+      border:1px solid rgba(31,107,114,.18);
+      border-radius:999px;
+      color:#315d5d;
+      background:rgba(255,255,255,.62);
+      font-size:12px;
+      font-weight:720;
       margin-bottom:10px;
     }
     h1 {
-      font-size:27px;
+      font-size:31px;
       line-height:1.12;
       margin:0 0 10px;
-      font-weight:780;
+      font-weight:820;
     }
     .lead {
       margin:0;
       color:#395057;
       font-size:14px;
       line-height:1.62;
+    }
+    .hero-layout {
+      display:grid;
+      gap:14px;
+    }
+    .hero-route {
+      position:relative;
+      overflow:hidden;
+      border:1px solid rgba(189,204,198,.9);
+      border-radius:var(--radius);
+      background:#fff;
+      box-shadow:var(--shadow-soft);
+      min-height:154px;
+    }
+    .hero-route img {
+      width:100%;
+      height:154px;
+      object-fit:cover;
+      object-position:center;
+    }
+    .hero-route-caption {
+      position:absolute;
+      left:10px;
+      right:10px;
+      bottom:10px;
+      display:flex;
+      justify-content:space-between;
+      gap:8px;
+      align-items:center;
+      min-height:36px;
+      padding:7px 9px;
+      border:1px solid rgba(255,255,255,.7);
+      border-radius:var(--radius);
+      background:rgba(255,255,255,.86);
+      backdrop-filter:blur(12px);
+      color:#1c363a;
+      font-size:12px;
+      line-height:1.3;
+      box-shadow:0 6px 18px rgba(24,52,60,.12);
+    }
+    .hero-route-caption strong {
+      font-size:13px;
+      max-width:58%;
+      overflow:hidden;
+      white-space:nowrap;
+      text-overflow:ellipsis;
+    }
+    .hero-route-caption span:last-child {
+      color:var(--muted);
+      text-align:right;
     }
     .dashboard {
       display:grid;
@@ -73,11 +154,12 @@
       margin-top:14px;
     }
     .metric {
-      min-height:68px;
-      background:var(--surface);
+      min-height:72px;
+      background:rgba(255,255,255,.82);
       border:1px solid var(--line);
       border-radius:var(--radius);
       padding:10px 9px;
+      box-shadow:0 3px 14px rgba(31,63,61,.04);
     }
     .metric b {
       display:block;
@@ -96,61 +178,68 @@
       position:sticky;
       top:0;
       z-index:20;
-      padding:9px 10px;
-      background:rgba(246,248,247,.96);
+      padding:9px 10px 8px;
+      background:rgba(248,250,247,.92);
       border-bottom:1px solid var(--line);
       backdrop-filter:blur(16px);
     }
     .plan-tabs {
       display:grid;
       grid-template-columns:1fr 1fr;
-      gap:8px;
-    }
-    .plan-tab {
-      min-height:46px;
+      gap:6px;
+      padding:4px;
       border:1px solid var(--line);
       border-radius:var(--radius);
-      background:var(--surface);
+      background:rgba(255,255,255,.76);
+    }
+    .plan-tab {
+      min-height:44px;
+      border:0;
+      border-radius:7px;
+      background:transparent;
       font-weight:720;
+      font-size:14px;
+      transition:background .18s ease,color .18s ease,box-shadow .18s ease;
     }
     .plan-tab.active {
       background:var(--teal);
-      border-color:var(--teal);
       color:#fff;
+      box-shadow:0 7px 18px rgba(31,107,114,.22);
     }
     .day-nav {
       display:flex;
       gap:7px;
       overflow-x:auto;
-      padding:9px 1px 1px;
+      padding:10px 1px 2px;
       scrollbar-width:none;
     }
     .day-nav::-webkit-scrollbar { display:none; }
     .day-chip {
       flex:0 0 auto;
       min-width:46px;
-      height:32px;
+      height:34px;
       border:1px solid var(--line);
       border-radius:999px;
       background:#fff;
       color:#395057;
       font-size:12px;
+      line-height:1.05;
     }
     .day-chip.active {
-      background:#e6f1ef;
-      border-color:#8dbbb5;
+      background:var(--teal-2);
+      border-color:#86b7b0;
       color:#124a51;
       font-weight:700;
     }
     section {
-      padding:18px 12px;
+      padding:20px 12px;
     }
     .section-title {
       display:flex;
       align-items:flex-end;
       justify-content:space-between;
       gap:10px;
-      margin-bottom:10px;
+      margin-bottom:12px;
     }
     h2 {
       margin:0;
@@ -171,12 +260,55 @@
       border:1px solid var(--line);
       border-radius:var(--radius);
       padding:12px;
+      box-shadow:var(--shadow-soft);
+    }
+    .route-card {
+      padding:0;
+      overflow:hidden;
     }
     .route-image {
-      border-radius:var(--radius);
-      border:1px solid var(--line);
-      margin-bottom:10px;
+      border-radius:0;
+      border:0;
+      border-bottom:1px solid var(--line);
+      margin-bottom:0;
       background:#fafafa;
+      width:100%;
+    }
+    .route-card-body {
+      padding:12px;
+    }
+    .plan-name {
+      color:var(--teal);
+      font-size:13px;
+      line-height:1.35;
+      font-weight:780;
+      margin-bottom:8px;
+    }
+    .recommend {
+      border-color:#ead8b4;
+      background:linear-gradient(180deg,#fffaf0,#fff);
+    }
+    .recommend .value {
+      font-size:15px;
+      color:#273d42;
+    }
+    .tag-row {
+      display:flex;
+      flex-wrap:wrap;
+      gap:7px;
+      margin-top:12px;
+    }
+    .tag {
+      display:inline-flex;
+      align-items:center;
+      min-height:28px;
+      padding:5px 9px;
+      border-radius:999px;
+      background:#f2f6f4;
+      border:1px solid #e0e9e5;
+      color:#3e555a;
+      font-size:12px;
+      line-height:1.2;
     }
     .split {
       display:grid;
@@ -195,13 +327,15 @@
     }
     .timeline {
       display:grid;
-      gap:10px;
+      gap:12px;
     }
     .day-card {
       background:var(--surface);
       border:1px solid var(--line);
       border-radius:var(--radius);
       overflow:hidden;
+      box-shadow:var(--shadow-soft);
+      scroll-margin-top:116px;
     }
     .day-top {
       display:grid;
@@ -209,12 +343,12 @@
       gap:10px;
       padding:12px;
       border-bottom:1px solid var(--line);
-      background:#fbfcfc;
+      background:linear-gradient(90deg,#fbfcfc 0%,#f7fbf8 100%);
     }
     .datebox {
       min-height:58px;
       border-radius:var(--radius);
-      background:#e8f2ef;
+      background:linear-gradient(180deg,#e4f0ed,#f6fbf8);
       color:#174d55;
       display:flex;
       flex-direction:column;
@@ -247,9 +381,9 @@
     }
     .slot {
       display:grid;
-      grid-template-columns:52px 1fr;
-      gap:8px;
-      padding:10px 12px;
+      grid-template-columns:54px 1fr;
+      gap:10px;
+      padding:11px 12px;
       border-bottom:1px solid #edf1ef;
     }
     .slot:last-child { border-bottom:0; }
@@ -261,19 +395,19 @@
     }
     .slot-text {
       font-size:14px;
-      line-height:1.58;
+      line-height:1.62;
       overflow-wrap:anywhere;
     }
     .drive-row {
-      background:#fff8ec;
+      background:var(--gold-2);
       border-left:4px solid var(--gold);
     }
     .rain-row {
-      background:#f0f6fb;
+      background:var(--blue-2);
       border-left:4px solid var(--blue);
     }
     .focus-row {
-      background:#f2f7f2;
+      background:var(--rice);
       border-left:4px solid var(--pine);
     }
     .table-wrap {
@@ -281,6 +415,7 @@
       border:1px solid var(--line);
       border-radius:var(--radius);
       background:#fff;
+      box-shadow:var(--shadow-soft);
     }
     table {
       width:100%;
@@ -315,7 +450,7 @@
       list-style:none;
     }
     .mini-list li {
-      padding:9px 10px;
+      padding:10px;
       background:#f8faf9;
       border:1px solid #e5ece9;
       border-radius:var(--radius);
@@ -328,26 +463,69 @@
       font-size:12px;
       line-height:1.6;
     }
+    .top-link {
+      position:fixed;
+      right:12px;
+      bottom:calc(12px + env(safe-area-inset-bottom));
+      z-index:30;
+      width:42px;
+      height:42px;
+      border:1px solid rgba(31,107,114,.25);
+      border-radius:999px;
+      background:rgba(255,255,255,.9);
+      box-shadow:var(--shadow);
+      color:var(--teal);
+      font-size:18px;
+      line-height:1;
+      opacity:0;
+      pointer-events:none;
+      transform:translateY(8px);
+      transition:opacity .18s ease,transform .18s ease;
+    }
+    .top-link.show {
+      opacity:1;
+      pointer-events:auto;
+      transform:translateY(0);
+    }
     .hidden { display:none !important; }
+    @media (prefers-reduced-motion:reduce) {
+      html { scroll-behavior:auto; }
+      .plan-tab { transition:none; }
+    }
     @media (min-width:760px) {
-      .top { padding-left:28px; padding-right:28px; }
-      h1 { font-size:38px; }
+      .top { padding-left:28px; padding-right:28px; padding-bottom:22px; }
+      .hero-layout { grid-template-columns:1fr 360px; align-items:end; }
+      .hero-route img { height:220px; }
+      h1 { font-size:40px; }
       section { padding:26px 28px; }
       .summary { grid-template-columns:1fr 1fr; }
       .timeline { grid-template-columns:1fr 1fr; align-items:start; }
       .grid { grid-template-columns:1fr 1fr; }
+      .top-link { display:none; }
     }
   </style>
 </head>
 <body>
   <div class="app">
     <header class="top">
-      <div class="meta">
-        <span>2026.08.17 - 08.23</span>
-        <span>上海出发｜4人｜舒适预算</span>
+      <div class="hero-layout">
+        <div>
+          <div class="meta">
+            <span>2026.08.17 - 08.23</span>
+            <span>上海出发｜4人｜舒适预算</span>
+          </div>
+          <div class="eyebrow">雨季友好 · 山湖古镇 · 双方案</div>
+          <h1>云南7天双方案</h1>
+          <p class="lead">先比较沙溪与香格里拉的取舍，再看每天做什么、住哪里、路上多久、雨天怎么替换。</p>
+        </div>
+        <figure class="hero-route" aria-label="当前方案路线图">
+          <img id="heroRoute" src="assets/images/route-a.png" alt="当前方案路线图预览" />
+          <figcaption class="hero-route-caption">
+            <strong id="heroPlanName">方案A 沙溪</strong>
+            <span id="heroNights">大理/喜洲2晚 + 沙溪1晚 + 丽江3晚</span>
+          </figcaption>
+        </figure>
       </div>
-      <h1>云南7天行程表</h1>
-      <p class="lead">以清爽行程表为主框架：先定方案，再看每天做什么、住哪里、路上多久、雨天怎么替换。</p>
       <div class="dashboard">
         <div class="metric"><b>2</b><span>候选路线</span></div>
         <div class="metric"><b>7</b><span>每日安排</span></div>
@@ -386,22 +564,33 @@
         路线和住宿 POI 已用高德 Web 服务核验；网页不包含高德 Key。最终订票、订房和景区预约前，请以航司、酒店、景区官方渠道为准。
       </footer>
     </main>
+    <button class="top-link" type="button" aria-label="回到顶部">↑</button>
   </div>
   <script id="plan-data" type="application/json">{"meta": {"title": "云南7天旅行双方案对比", "dates": "2026-08-17 至 2026-08-23", "people": "4人，26岁左右，两男两女", "budget": "舒适预算", "origin": "上海出发，开口航班优先", "generated": "2026-06-16", "amap_note": "已写入高德 MCP 配置；当前会话未热加载 MCP，路线与POI使用高德 Web 服务 API核验。"}, "recommendation": "两套都可执行。若更看重民宿人文、手作和舒适节奏，选A；若第一次去云南且想要更完整自然层次，选B。", "plans": [{"id": "A", "name": "方案A｜保留沙溪，不去香格里拉", "theme": "大理山湖 + 沙溪慢人文 + 丽江雪山纳西文化", "best_for": "更重视古镇民宿、手作体验、行程舒服、不想高海拔折腾。", "tradeoff": "放弃独克宗、纳帕海、普达措、松赞林寺等藏地和高原草甸体验。", "nights": "大理/喜洲2晚 + 沙溪1晚 + 丽江白沙/束河3晚", "route": "上海 → 大理 → 喜洲/苍山/洱海 → 沙溪 → 白沙/束河/玉龙雪山 → 上海", "segments": [{"from": "大理凤仪机场", "to": "喜洲古镇", "text": "75.9 km / 约71分钟", "minutes": 71, "km": 75.9, "tolls": "35"}, {"from": "喜洲古镇", "to": "苍山洗马潭索道", "text": "22.3 km / 约36分钟", "minutes": 36, "km": 22.3, "tolls": "0"}, {"from": "喜洲古镇", "to": "周城扎染", "text": "7.3 km / 约14分钟", "minutes": 14, "km": 7.3, "tolls": "0"}, {"from": "周城扎染", "to": "沙溪古镇", "text": "105.7 km / 约79分钟", "minutes": 79, "km": 105.7, "tolls": "63"}, {"from": "沙溪古镇", "to": "白沙古镇", "text": "106.1 km / 约88分钟", "minutes": 88, "km": 106.1, "tolls": "64"}, {"from": "白沙古镇", "to": "玉龙雪山游客中心", "text": "24.8 km / 约42分钟", "minutes": 42, "km": 24.8, "tolls": "0"}, {"from": "玉龙雪山游客中心", "to": "蓝月谷", "text": "11.1 km / 约21分钟", "minutes": 21, "km": 11.1, "tolls": "0"}, {"from": "白沙古镇", "to": "丽江三义机场", "text": "41.6 km / 约61分钟", "minutes": 61, "km": 41.6, "tolls": "10"}], "days": [{"date": "8/17 Day1", "base": "住喜洲或大理古城", "title": "上海到大理，先进入慢节奏", "morning": "上海飞大理优先；若航班不合适，丽江或昆明中转作为备选。", "afternoon": "到达后前往喜洲或大理古城，轻逛古城、稻田、洱海边。", "evening": "白族院落晚餐，早休息。", "drive": "75.9 km / 约71分钟", "focus": "适应节奏，别把首日排满。", "rain": "雨天改为古城、咖啡、白族民居室内参观。"}, {"date": "8/18 Day2", "base": "住喜洲或大理古城", "title": "苍山一日爬山参观", "morning": "洗马潭索道上山，按天气选择洗马潭、七龙女池、山上栈道。", "afternoon": "下山后回喜洲或大理古城休整。", "evening": "洱海边散步。", "drive": "22.3 km / 约36分钟", "focus": "本行程最符合“一日普通爬山”的体验。", "rain": "大风/索道停运则改崇圣寺三塔、喜洲、周城扎染。"}, {"date": "8/19 Day3", "base": "住沙溪古镇", "title": "洱海、喜洲、周城扎染，再去沙溪", "morning": "洱海生态廊道、喜洲稻田和白族民居。", "afternoon": "周城扎染体验，随后自驾/包车去沙溪。", "evening": "寺登街、古戏台、老院子民宿。", "drive": "喜洲→周城 7.3 km / 约14分钟；周城→沙溪 105.7 km / 约79分钟", "focus": "白族手作 + 茶马古道古镇。", "rain": "扎染和沙溪古镇雨天也可玩，适合慢游。"}, {"date": "8/20 Day4", "base": "住白沙或束河", "title": "沙溪半日，再去丽江", "morning": "寺登街、玉津桥、兴教寺、甲马版画/木雕体验。", "afternoon": "沙溪出发去丽江白沙或束河。", "evening": "白沙看雪山氛围，束河吃饭更便利。", "drive": "106.1 km / 约88分钟", "focus": "沙溪不要只打卡，上午留给古镇。", "rain": "雨天保留沙溪手作，丽江段减少户外。"}, {"date": "8/21 Day5", "base": "住白沙或束河", "title": "玉龙雪山 + 蓝月谷", "morning": "优先抢冰川公园大索道；高海拔慢走，带冲锋衣、内胆、防水鞋。", "afternoon": "蓝月谷、甘海子；天气差可改云杉坪/牦牛坪。", "evening": "回白沙/束河休息。", "drive": "白沙→游客中心 24.8 km / 约42分钟；游客中心→蓝月谷 11.1 km / 约21分钟", "focus": "高海拔雪山体验，不按传统爬山理解。", "rain": "云雾大时降低雪山期待，把蓝月谷和古镇文化做满。"}, {"date": "8/22 Day6", "base": "住白沙或束河", "title": "丽江纳西文化慢游", "morning": "白沙古镇、白沙壁画、东巴纸/东巴文字体验。", "afternoon": "束河古镇、黑龙潭择一，或纳西刺绣/纳西古乐。", "evening": "丽江古城夜景只逛不住，避免太商业影响休息。", "drive": "白沙、束河、黑龙潭多为30分钟内短途打车", "focus": "把沙溪缺少的大城市配套和丽江文化补齐。", "rain": "室内手作、壁画、咖啡馆、古城短逛。"}, {"date": "8/23 Day7", "base": "返程", "title": "丽江返上海", "morning": "白沙轻逛或睡到自然醒。", "afternoon": "丽江三义机场返上海，开口航班优先。", "evening": "到家。", "drive": "41.6 km / 约61分钟", "focus": "返程日不安排硬景点。", "rain": "不受影响。"}]}, {"id": "B", "name": "方案B｜保留香格里拉，不去沙溪", "theme": "大理山湖 + 丽江雪山 + 香格里拉高原草甸藏地文化", "best_for": "第一次去云南、想要自然风光层次更完整，愿意接受高海拔和跨城车程。", "tradeoff": "放弃沙溪老院子、茶马古道、甲马版画和最安静的古镇民宿体验。", "nights": "大理/喜洲2晚 + 丽江白沙/束河2晚 + 独克宗2晚", "route": "上海 → 大理 → 白沙/束河/玉龙雪山 → 虎跳峡/独克宗 → 纳帕海/松赞林寺/普达措 → 上海", "segments": [{"from": "大理凤仪机场", "to": "喜洲古镇", "text": "75.9 km / 约71分钟", "minutes": 71, "km": 75.9, "tolls": "35"}, {"from": "喜洲古镇", "to": "苍山洗马潭索道", "text": "22.3 km / 约36分钟", "minutes": 36, "km": 22.3, "tolls": "0"}, {"from": "喜洲古镇", "to": "周城扎染", "text": "7.3 km / 约14分钟", "minutes": 14, "km": 7.3, "tolls": "0"}, {"from": "喜洲古镇", "to": "白沙古镇", "text": "159.9 km / 约127分钟", "minutes": 127, "km": 159.9, "tolls": "87"}, {"from": "白沙古镇", "to": "玉龙雪山游客中心", "text": "24.8 km / 约42分钟", "minutes": 42, "km": 24.8, "tolls": "0"}, {"from": "白沙古镇", "to": "虎跳峡景区游客中心", "text": "87.8 km / 约85分钟", "minutes": 85, "km": 87.8, "tolls": "38"}, {"from": "虎跳峡景区游客中心", "to": "独克宗古城", "text": "108.0 km / 约96分钟", "minutes": 96, "km": 108.0, "tolls": "71"}, {"from": "独克宗古城", "to": "纳帕海依拉草原", "text": "13.5 km / 约23分钟", "minutes": 23, "km": 13.5, "tolls": "0"}, {"from": "独克宗古城", "to": "松赞林寺", "text": "9.7 km / 约25分钟", "minutes": 25, "km": 9.7, "tolls": "0"}, {"from": "独克宗古城", "to": "普达措国家公园", "text": "35.8 km / 约49分钟", "minutes": 49, "km": 35.8, "tolls": "0"}, {"from": "独克宗古城", "to": "迪庆香格里拉机场", "text": "5.7 km / 约13分钟", "minutes": 13, "km": 5.7, "tolls": "0"}], "days": [{"date": "8/17 Day1", "base": "住喜洲或大理古城", "title": "上海到大理，山湖线开场", "morning": "上海飞大理优先，开口航班减少回头路。", "afternoon": "抵达后去喜洲或大理古城，洱海边慢走。", "evening": "白族餐，整理装备。", "drive": "75.9 km / 约71分钟", "focus": "大理作为低海拔缓冲。", "rain": "古城、喜洲民居、咖啡馆。"}, {"date": "8/18 Day2", "base": "住喜洲或大理古城", "title": "苍山一日爬山参观", "morning": "洗马潭索道、七龙女池、山上海拔景观，按天气控制强度。", "afternoon": "下山后回洱海边休息。", "evening": "大理古城或喜洲晚餐。", "drive": "22.3 km / 约36分钟", "focus": "7天里最像“普通一日爬山”的一天。", "rain": "索道停运则转室内/低海拔方案。"}, {"date": "8/19 Day3", "base": "住白沙或束河", "title": "洱海喜洲后去丽江", "morning": "喜洲稻田、周城扎染，保留一点白族手作。", "afternoon": "大理/喜洲出发去丽江白沙或束河。", "evening": "白沙古镇或束河古镇。", "drive": "喜洲→周城 7.3 km / 约14分钟；喜洲→白沙 159.9 km / 约127分钟", "focus": "用半天喜洲/周城补沙溪被舍弃后的人文缺口。", "rain": "扎染、白族民居、直接转丽江。"}, {"date": "8/20 Day4", "base": "住白沙或束河", "title": "玉龙雪山 + 蓝月谷", "morning": "冰川公园大索道优先；高反谨慎，慢走多喝水。", "afternoon": "蓝月谷、甘海子，天气差转云杉坪/牦牛坪。", "evening": "回白沙或束河。", "drive": "白沙→游客中心 24.8 km / 约42分钟；游客中心→蓝月谷 11.1 km / 约21分钟", "focus": "雪山和湖谷是经典自然核心。", "rain": "雪山云雾大则减少执念，保留蓝月谷和古镇。"}, {"date": "8/21 Day5", "base": "住独克宗古城", "title": "丽江到香格里拉，途中轻量虎跳峡", "morning": "白沙出发，经虎跳峡游客中心；只做观景型停留，不走高路徒步。", "afternoon": "继续到独克宗，适应海拔。", "evening": "月光广场、大转经筒、藏餐、锅庄舞。", "drive": "白沙→虎跳峡游客中心 87.8 km / 约85分钟；虎跳峡→独克宗 108.0 km / 约96分钟", "focus": "这天车程较长，不再叠加重体力项目。", "rain": "雨大、落石风险高则跳过虎跳峡直达独克宗。"}, {"date": "8/22 Day6", "base": "住独克宗古城", "title": "纳帕海 + 松赞林寺，普达措作为自然加强版", "morning": "松赞林寺或普达措二选一：想藏地人文选松赞林寺，想高原湖泊森林选普达措。", "afternoon": "纳帕海/依拉草原正规环湖，不开进湿地草甸。", "evening": "独克宗藏香/唐卡体验。", "drive": "独克宗→纳帕海 13.5 km / 约23分钟；独克宗→松赞林寺 9.7 km / 约25分钟；独克宗→普达措 35.8 km / 约49分钟", "focus": "七八月高原草甸湿地季节价值高。", "rain": "雨天优先松赞林寺+独克宗，普达措看天气。"}, {"date": "8/23 Day7", "base": "返程", "title": "香格里拉或丽江返上海", "morning": "优先查迪庆香格里拉机场返程；不合适则车回丽江机场。", "afternoon": "返上海。", "evening": "到家。", "drive": "独克宗→香格里拉机场 5.7 km / 约13分钟；独克宗→丽江机场 188.2 km / 约137分钟", "focus": "返程日只放交通。", "rain": "若走丽江机场，预留3.5小时以上路上与缓冲。"}]}], "hotels": {"大理/喜洲": {"area": "优先喜洲古镇内或周边院落民宿；想交通和餐饮更稳可住大理古城。", "examples": ["Xirise·云喜洲里丨Joyisle Mirage水湄逸境悦居度假美宿", "大理段氏董院客栈(喜洲古镇店)", "大理喜漫民宿", "大理悠觅小院精品民宿", "大理合舍民宿"]}, "沙溪": {"area": "寺登街、古戏台、玉津桥步行范围内，选老院子或设计师民宿。", "examples": ["一生一世·观景民宿(沙溪古镇店)", "若留·印象沙溪宋风设计师度假酒店", "沙溪·隅堓精品智能民宿", "沙溪巷子里民宿(沙溪古镇店)", "沙溪古沙别苑(幸福巷分店)"]}, "丽江白沙/束河": {"area": "白沙更安静更近雪山，束河餐饮和住宿成熟度更高。", "examples": ["丽江民宿哈民宿(束河古镇店)", "玉龙白沙清露闲庭客栈", "在野Snow Mountain·日照金山·空中花园雪山星空度假民宿"]}, "独克宗": {"area": "独克宗古城内或月光广场周边，夜晚步行方便，高反时减少打车折腾。", "examples": ["经轮观景民宿(独克宗古城店)", "小美满民宿", "香格里拉牧云·山境民宿(独克宗古城大佛寺转经筒店)", "泊栖民宿(独克宗古城月光广场店)", "香格里拉香漫民宿(独克宗古城店)"]}}, "transport": [{"mode": "租车自驾", "fit": "适合A和B，四人自由度最高。", "watch": "云南山路、雨季湿滑、停车和司机疲劳；香格里拉海拔段不建议疲劳驾驶。"}, {"mode": "包车/接送", "fit": "舒适预算最省心，尤其大理-沙溪-丽江、丽江-香格里拉跨城。", "watch": "费用更高，但四人分摊合理，雨季安全冗余更好。"}, {"mode": "打车/动车组合", "fit": "A可行但沙溪接驳要提前约车；B丽江到香格里拉更建议包车。", "watch": "公共交通会损失机动性，手作和古镇慢游时间会被压缩。"}], "booking": ["玉龙雪山冰川公园大索道需要提前关注官方预约渠道；暑期热门，抢不到时改云杉坪/牦牛坪。", "苍山洗马潭索道受天气影响明显，大风雷雨可能停运；当天早晨确认。", "虎跳峡雨季只做景区观景型停留，连续强降雨、落石预警时直接跳过。", "普达措和纳帕海海拔较高，第一天到香格里拉不要剧烈运动。", "酒店先锁可取消房，最终按航班和路线选择二次确认。"], "packing": ["GTX/GORE-TEX 中帮徒步鞋", "软壳/速干徒步裤", "轻量雨裤或雨衣", "始祖鸟硬壳 + 内胆", "徒步袜/备用袜", "帽子、墨镜、防晒霜", "薄手套、脖套", "小容量双肩包、保温杯", "晕车药、肠胃药、创可贴", "手机防水袋或防雨收纳袋"], "sources": [{"label": "高德 MCP 快速接入", "url": "https://lbs.amap.com/api/mcp-server/gettingstarted"}, {"label": "高德创建应用和 Key", "url": "https://lbs.amap.com/api/mcp-server/create-project-and-key"}, {"label": "高德 Web 服务 API 路线和 POI 数据", "url": "本地调用结果保存在 data/amap-results.json"}, {"label": "用户提供 PDF 上下文", "url": "用户提供的旅行规划 PDF 上下文"}]}</script>
   <script>
     const data = JSON.parse(document.getElementById('plan-data').textContent);
     let active = 'A';
+    let dayObserver;
     const $ = (s) => document.querySelector(s);
     const $$ = (s) => [...document.querySelectorAll(s)];
     function currentPlan() { return data.plans.find(p => p.id === active); }
+    function routeImage(plan) {
+      return plan.id === 'A' ? 'assets/images/route-a.png' : 'assets/images/route-b.png';
+    }
     function dayShort(date) {
       const m = date.match(/8\/(\d+)\s+Day(\d+)/);
       return m ? [`8/${m[1]}`, `D${m[2]}`] : [date, ''];
     }
+    function updateHero(plan) {
+      $('#heroRoute').src = routeImage(plan);
+      $('#heroRoute').alt = `${plan.name}路线图预览`;
+      $('#heroPlanName').textContent = plan.id === 'A' ? '方案A 沙溪' : '方案B 香格里拉';
+      $('#heroNights').textContent = plan.nights;
+    }
     function renderNav(plan) {
       $('#dayNav').innerHTML = plan.days.map((d, i) => {
         const [date, day] = dayShort(d.date);
-        return `<button class="day-chip ${i===0?'active':''}" data-target="day-${plan.id}-${i}">${day}<br>${date}</button>`;
+        return `<button class="day-chip ${i===0?'active':''}" data-target="day-${plan.id}-${i}" aria-label="查看${d.date}">${day}<br>${date}</button>`;
       }).join('');
       $$('.day-chip').forEach(btn => btn.addEventListener('click', () => {
         $$('.day-chip').forEach(b => b.classList.remove('active'));
@@ -412,13 +601,25 @@
     function renderSummary(plan) {
       $('#nights').textContent = plan.nights;
       $('#planTheme').textContent = plan.theme;
-      const image = plan.id === 'A' ? 'assets/images/route-a.png' : 'assets/images/route-b.png';
+      const image = routeImage(plan);
       $('#summary').innerHTML = `
-        <article class="card">
+        <article class="card route-card">
           <img class="route-image" src="${image}" alt="${plan.name}路线图" />
-          <div class="split">
+          <div class="route-card-body">
+            <div class="plan-name">${plan.name}</div>
+            <div class="split">
             <div><div class="label">适合</div><div class="value">${plan.best_for}</div></div>
             <div><div class="label">减少</div><div class="value">${plan.tradeoff}</div></div>
+            </div>
+          </div>
+        </article>
+        <article class="card recommend">
+          <div class="label">选择建议</div>
+          <div class="value">${data.recommendation}</div>
+          <div class="tag-row">
+            <span class="tag">${plan.id === 'A' ? '民宿人文' : '高原自然'}</span>
+            <span class="tag">${plan.id === 'A' ? '低海拔更舒服' : '藏地体验更完整'}</span>
+            <span class="tag">${plan.segments.length}段车程核验</span>
           </div>
         </article>
         <article class="card">
@@ -474,21 +675,44 @@
           <ul class="mini-list">${items.map(x => `<li>${x}</li>`).join('')}</ul>
         </article>`).join('');
     }
+    function observeDays(plan) {
+      if (dayObserver) dayObserver.disconnect();
+      const cards = plan.days.map((_, i) => document.getElementById(`day-${plan.id}-${i}`)).filter(Boolean);
+      dayObserver = new IntersectionObserver((entries) => {
+        const visible = entries
+          .filter(entry => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+        if (!visible) return;
+        const id = visible.target.id;
+        $$('.day-chip').forEach(chip => chip.classList.toggle('active', chip.dataset.target === id));
+      }, { rootMargin:'-42% 0px -45% 0px', threshold:[0,.2,.45,.7] });
+      cards.forEach(card => dayObserver.observe(card));
+    }
     function render() {
       const plan = currentPlan();
-      $$('.plan-tab').forEach(b => b.classList.toggle('active', b.dataset.plan === active));
+      updateHero(plan);
+      $$('.plan-tab').forEach(b => {
+        const isActive = b.dataset.plan === active;
+        b.classList.toggle('active', isActive);
+        b.setAttribute('aria-pressed', String(isActive));
+      });
       renderNav(plan);
       renderSummary(plan);
       renderTimeline(plan);
       renderDrive(plan);
       renderHotels();
       renderChecks();
+      observeDays(plan);
     }
     $$('.plan-tab').forEach(btn => btn.addEventListener('click', () => {
       active = btn.dataset.plan;
       render();
       window.scrollTo({top:0, behavior:'smooth'});
     }));
+    $('.top-link').addEventListener('click', () => window.scrollTo({top:0, behavior:'smooth'}));
+    window.addEventListener('scroll', () => {
+      $('.top-link').classList.toggle('show', window.scrollY > 560);
+    }, { passive:true });
     render();
   </script>
 </body>
