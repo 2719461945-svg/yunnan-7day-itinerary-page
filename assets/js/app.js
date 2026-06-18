@@ -107,23 +107,6 @@ function renderDays(data) {
   `).join("");
 }
 
-function renderLodging(data) {
-  $("#lodgingList").innerHTML = data.lodging.map((item) => `
-    <article class="lodging-card">
-      <h3>${text(item.area)}</h3>
-      <p><strong>适合：</strong>${text(item.why)}</p>
-      <p><strong>房型：</strong>${text(item.type)}</p>
-      <p><strong>价位：</strong>${text(item.price)}</p>
-      <p><strong>参考：</strong>${text(item.examples)}</p>
-    </article>
-  `).join("");
-}
-
-function renderLists(data) {
-  $("#checkList").innerHTML = data.checks.map((item) => `<li>${text(item)}</li>`).join("");
-  $("#sourceList").innerHTML = data.sources.map((item) => `<li>${text(item)}</li>`).join("");
-}
-
 function setActiveDay(id) {
   $$(".day-chip").forEach((chip) => chip.classList.toggle("is-active", chip.dataset.target === id));
   const active = $(`.day-chip[data-target="${id}"]`);
@@ -238,8 +221,6 @@ function render(data) {
   renderStats(data);
   renderRoute(data);
   renderDays(data);
-  renderLodging(data);
-  renderLists(data);
   bindEvents();
   observeDays();
   $('[data-action="expand"]').textContent = "收起全部";
