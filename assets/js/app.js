@@ -138,15 +138,17 @@ function applyView(view) {
   state.activeView = view;
   $$(".view-tab").forEach((tab) => tab.classList.toggle("is-active", tab.dataset.view === view));
 
-  $$(".slot").forEach((item) => {
+  $$(".slot, .day-photo").forEach((item) => {
     const kind = item.dataset.kind;
     const shouldShow =
       view === "all" ||
-      (view === "movement" && (kind === "time" || kind === "plan" || kind === "photo")) ||
       (view === "stay" && kind === "stay") ||
       (view === "cost" && kind === "cost");
     item.hidden = !shouldShow;
   });
+
+  const currentDay = $(".day-chip.is-active")?.dataset.target || "day-1";
+  $(`#${currentDay}`)?.scrollIntoView({ block: "start", behavior: "smooth" });
 }
 
 function toggleCard(card, forceOpen) {
