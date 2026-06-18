@@ -285,7 +285,7 @@ section {
 
 .view-tabs {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   flex: 1;
   gap: 4px;
   padding: 4px;
@@ -466,6 +466,11 @@ section {
   border-radius: var(--radius);
   background: #fff;
   box-shadow: var(--shadow-soft);
+}
+
+.day-photo[hidden],
+.slot[hidden] {
+  display: none;
 }
 
 .slot {
