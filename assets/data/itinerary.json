@@ -9,8 +9,7 @@
     "version": "2026-06-18"
   },
   "assets": {
-    "planningImage": "assets/images/yunnan-singleline-planning-map.png",
-    "timelineImage": "assets/images/timeline-single.png"
+    "overviewImage": "assets/images/yunnan-overview.png"
   },
   "stats": [
     {
@@ -48,6 +47,7 @@
       "date": "8/16",
       "day": "D1",
       "title": "上海——昆明——大理",
+      "image": "assets/images/yunnan-day1.png",
       "base": "住小关邑/洱滨村海景房",
       "theme": "交通日 + 海东日落",
       "tags": ["交通", "日落", "入住"],
@@ -65,6 +65,7 @@
       "date": "8/17",
       "day": "D2",
       "title": "苍山深度游",
+      "image": "assets/images/yunnan-day2.png",
       "base": "住小关邑/洱滨村海景房",
       "theme": "苍山一整天",
       "tags": ["山景", "索道", "备选"],
@@ -82,6 +83,7 @@
       "date": "8/18",
       "day": "D3",
       "title": "海西骑行深度游",
+      "image": "assets/images/yunnan-day3.png",
       "base": "住小关邑/洱滨村海景房",
       "theme": "生态廊道",
       "tags": ["骑行", "洱海", "喜洲"],
@@ -99,6 +101,7 @@
       "date": "8/19",
       "day": "D4",
       "title": "大理——沙溪——丽江",
+      "image": "assets/images/yunnan-day4.png",
       "base": "住白沙-束河之间",
       "theme": "自驾 + 手作",
       "tags": ["自驾", "沙溪", "手作"],
@@ -116,6 +119,7 @@
       "date": "8/20",
       "day": "D5",
       "title": "云杉坪——牦牛坪",
+      "image": "assets/images/yunnan-day5.png",
       "base": "住白沙-束河之间",
       "theme": "雪山适应日",
       "tags": ["雪山", "蓝月谷", "轻高海拔"],
@@ -133,6 +137,7 @@
       "date": "8/21",
       "day": "D6",
       "title": "冰川公园4680",
+      "image": "assets/images/yunnan-day6.png",
       "base": "住白沙-束河之间",
       "theme": "高海拔重点日",
       "tags": ["雪山", "索道", "4680"],
@@ -150,6 +155,7 @@
       "date": "8/22",
       "day": "D7",
       "title": "丽江——上海",
+      "image": "assets/images/yunnan-day7.png",
       "base": "返程",
       "theme": "轻逛返程",
       "tags": ["返程", "古城", "机场"],

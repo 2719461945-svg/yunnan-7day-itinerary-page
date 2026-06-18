@@ -9,27 +9,14 @@
   <link rel="icon" type="image/png" href="assets/images/favicon.png" />
   <link rel="preload" href="assets/css/styles.css" as="style" />
   <link rel="preload" href="assets/data/itinerary.json" as="fetch" crossorigin="anonymous" />
-  <link rel="preload" href="assets/images/yunnan-singleline-planning-map.png" as="image" />
+  <link rel="preload" href="assets/images/yunnan-overview.png" as="image" />
   <link rel="stylesheet" href="assets/css/styles.css" />
 </head>
 <body>
   <div class="scroll-meter" aria-hidden="true"><span id="scrollMeter"></span></div>
   <div class="app-shell">
-    <header class="hero" id="top">
-      <div class="hero__meta">
-        <span id="tripDates">2026.08.16 - 08.22</span>
-        <span id="tripPeople">4人｜两男两女｜舒适预算</span>
-      </div>
-      <div class="hero__label">单线深度方案 · 大理海景房 · 丽江双日雪山</div>
-      <h1>云南7天深度旅行方案</h1>
-      <p id="tripSummary" class="hero__summary">上海飞昆明，高铁进入大理；大理3晚深玩苍山和海西，过沙溪手作后住丽江3晚，玉龙雪山拆成两天。</p>
-      <div class="hero__actions" aria-label="页面操作">
-        <button class="action-button" type="button" data-action="share">分享</button>
-        <button class="action-button" type="button" data-action="copy">复制链接</button>
-      </div>
-      <div class="hero__image-wrap">
-        <img id="planningImage" src="assets/images/yunnan-singleline-planning-map.png" alt="云南7天单线旅行总规划图" loading="eager" decoding="async" />
-      </div>
+    <header class="hero hero--image-only" id="top">
+      <img id="overviewImage" src="assets/images/yunnan-overview.png" alt="云南7天旅行总览图片" loading="eager" decoding="async" />
     </header>
 
     <main>
@@ -40,9 +27,6 @@
         </div>
         <div class="stat-grid" id="statGrid"></div>
         <div class="route-strip" id="routeStrip" aria-label="基础路线"></div>
-        <figure class="timeline-media">
-          <img id="timelineImage" src="assets/images/timeline-single.png" alt="云南7天单线横版时间轴" loading="lazy" decoding="async" />
-        </figure>
       </section>
 
       <nav class="control-bar" aria-label="行程快捷导航">

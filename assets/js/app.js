@@ -27,12 +27,7 @@ function showToast(message) {
 }
 
 function setHero(data) {
-  $("#tripDates").textContent = data.meta.dates;
-  $("#tripPeople").textContent = data.meta.people;
-  $("#tripSummary").textContent = data.meta.summary;
   $("#routeText").textContent = data.meta.route;
-  $("#planningImage").src = data.assets.planningImage;
-  $("#timelineImage").src = data.assets.timelineImage;
 }
 
 function renderStats(data) {
@@ -77,6 +72,15 @@ function slot(label, value, kind = "plan") {
   `;
 }
 
+function dayPhoto(day, index) {
+  const src = day.image || `assets/images/yunnan-day${index + 1}.png`;
+  return `
+    <figure class="day-photo" data-kind="photo">
+      <img src="${text(src)}" alt="${text(day.day)} ${text(day.title)} 旅行图片" loading="lazy" decoding="async">
+    </figure>
+  `;
+}
+
 function renderDays(data) {
   $("#dayNav").innerHTML = data.days.map((day, index) => `
     <button class="day-chip ${index === 0 ? "is-active" : ""}" type="button" data-target="${day.id}">
@@ -96,6 +100,7 @@ function renderDays(data) {
         <span class="chevron" aria-hidden="true">⌄</span>
       </button>
       <div class="slots" id="${day.id}-slots">
+        ${dayPhoto(day, index)}
         ${slot("上午", day.morning)}
         ${slot("下午", day.afternoon)}
         ${slot("晚上", day.evening)}
@@ -137,7 +142,7 @@ function applyView(view) {
     const kind = item.dataset.kind;
     const shouldShow =
       view === "all" ||
-      (view === "movement" && (kind === "time" || kind === "plan")) ||
+      (view === "movement" && (kind === "time" || kind === "plan" || kind === "photo")) ||
       (view === "stay" && kind === "stay") ||
       (view === "cost" && kind === "cost");
     item.hidden = !shouldShow;
@@ -174,32 +179,38 @@ function bindEvents() {
     event.currentTarget.textContent = state.expanded ? "收起全部" : "展开全部";
   });
 
-  $('[data-action="copy"]').addEventListener("click", async () => {
-    try {
-      await navigator.clipboard.writeText(location.href);
-      showToast("链接已复制，可以发到手机打开。");
-    } catch {
-      showToast("复制失败，可以直接复制浏览器地址栏。");
-    }
-  });
-
-  $('[data-action="share"]').addEventListener("click", async () => {
-    const shareData = {
-      title: document.title,
-      text: state.data?.meta.summary || "云南7天深度旅行方案",
-      url: location.href
-    };
-    if (navigator.share) {
+  const copyButton = $('[data-action="copy"]');
+  if (copyButton) {
+    copyButton.addEventListener("click", async () => {
       try {
-        await navigator.share(shareData);
+        await navigator.clipboard.writeText(location.href);
+        showToast("链接已复制，可以发到手机打开。");
       } catch {
-        showToast("已取消分享。");
+        showToast("复制失败，可以直接复制浏览器地址栏。");
       }
-    } else {
-      await navigator.clipboard.writeText(location.href);
-      showToast("浏览器不支持直接分享，已复制链接。");
-    }
-  });
+    });
+  }
+
+  const shareButton = $('[data-action="share"]');
+  if (shareButton) {
+    shareButton.addEventListener("click", async () => {
+      const shareData = {
+        title: document.title,
+        text: state.data?.meta.summary || "云南7天深度旅行方案",
+        url: location.href
+      };
+      if (navigator.share) {
+        try {
+          await navigator.share(shareData);
+        } catch {
+          showToast("已取消分享。");
+        }
+      } else {
+        await navigator.clipboard.writeText(location.href);
+        showToast("浏览器不支持直接分享，已复制链接。");
+      }
+    });
+  }
 
   $("#topButton").addEventListener("click", () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
