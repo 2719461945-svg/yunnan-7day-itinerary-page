@@ -14,8 +14,74 @@ function text(value) {
   return String(value ?? "");
 }
 
+function escapeHtml(value) {
+  return text(value).replace(/[&<>"']/g, (char) => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
+  }[char]));
+}
+
 function money(value) {
   return `¥${formatter.format(value)}`;
+}
+
+function escapeRegExp(value) {
+  return text(value).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+const highlightGroups = [
+  {
+    className: "keyword-city",
+    terms: [
+      "上海", "昆明长水机场", "长水机场", "昆明站", "昆明", "大理站", "大理",
+      "小关邑", "洱滨村", "理想邦", "苍山", "感通寺门区", "沙溪古镇", "沙溪",
+      "丽江三义机场", "丽江", "白沙", "束河"
+    ]
+  },
+  {
+    className: "keyword-transport",
+    terms: [
+      "机场交通", "高铁", "打车", "自驾", "骑行", "电瓶车", "索道", "步行",
+      "飞", "取车", "返回", "前往", "入住"
+    ]
+  },
+  {
+    className: "keyword-place",
+    terms: [
+      "海景房", "海东日落", "感通索道入口", "感通索道", "清碧溪", "苍山大峡谷",
+      "玉带云游路", "中和寺", "中和索道", "洱海生态廊道南段", "龙龛码头",
+      "才村码头", "磻溪S湾", "廊桥", "喜洲古镇", "海舌公园入口", "甲马版画",
+      "木雕", "扎染", "寺登街", "玉津桥", "玉龙雪山游客中心", "云杉坪",
+      "牦牛坪", "蓝月谷", "冰川公园大索道", "4680米栈道", "丽江古城"
+    ]
+  }
+];
+
+const highlightTerms = highlightGroups
+  .flatMap((group) => group.terms.map((term) => ({ term, className: group.className })))
+  .sort((a, b) => b.term.length - a.term.length);
+
+function highlightText(value) {
+  let source = escapeHtml(value);
+  const placeholders = [];
+
+  highlightTerms.forEach(({ term, className }) => {
+    const escapedTerm = escapeHtml(term);
+    source = source.replace(new RegExp(escapeRegExp(escapedTerm), "g"), () => {
+      const token = `__KW_${placeholders.length}__`;
+      placeholders.push(`<mark class="keyword ${className}">${escapedTerm}</mark>`);
+      return token;
+    });
+  });
+
+  placeholders.forEach((html, index) => {
+    source = source.replaceAll(`__KW_${index}__`, html);
+  });
+
+  return source;
 }
 
 function showToast(message) {
@@ -37,11 +103,13 @@ function renderStats(data) {
     return acc;
   }, { min: 0, max: 0 });
 
-  const stats = data.stats.map((item) => ({ ...item }));
+  const stats = data.stats
+    .filter((item) => !["住宿", "节奏"].includes(item.label))
+    .map((item) => ({ ...item }));
   const budget = stats.find((item) => item.label === "预算");
   if (budget) {
-    budget.value = `${money(totals.min)}-${money(totals.max)}`;
-    budget.note = "人均粗估，不含购物";
+    budget.value = `人均 ${money(totals.min)} 起`;
+    budget.note = "不含购物，以实际下单为准";
   }
 
   $("#statGrid").innerHTML = stats.map((item) => `
@@ -63,11 +131,11 @@ function renderRoute(data) {
   `).join("");
 }
 
-function slot(label, value, kind = "plan") {
+function slot(label, value, kind = "plan", highlight = false) {
   return `
     <div class="slot" data-kind="${kind}">
       <div class="slot-name">${label}</div>
-      <div class="slot-text">${text(value)}</div>
+      <div class="slot-text">${highlight ? highlightText(value) : escapeHtml(value)}</div>
     </div>
   `;
 }
@@ -101,9 +169,9 @@ function renderDays(data) {
       </button>
       <div class="slots" id="${day.id}-slots">
         ${dayPhoto(day, index)}
-        ${slot("上午", day.morning)}
-        ${slot("下午", day.afternoon)}
-        ${slot("晚上", day.evening)}
+        ${slot("上午", day.morning, "plan", true)}
+        ${slot("下午", day.afternoon, "plan", true)}
+        ${slot("晚上", day.evening, "plan", true)}
         ${slot("耗时", day.time, "time")}
         ${slot("住宿", day.hotel, "stay")}
         ${slot("费用", day.cost, "cost")}

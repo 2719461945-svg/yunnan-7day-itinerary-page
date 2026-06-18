@@ -162,6 +162,10 @@ section {
   line-height: 1.2;
 }
 
+.itinerary-section .section-heading h2 {
+  font-size: 23px;
+}
+
 .section-heading span {
   max-width: 54%;
   color: var(--muted);
@@ -205,7 +209,7 @@ section {
   display: block;
   margin-top: 7px;
   color: var(--teal-deep);
-  font-size: 21px;
+  font-size: 22px;
   line-height: 1.05;
 }
 
@@ -217,14 +221,56 @@ section {
   line-height: 1.35;
 }
 
+.route-strip-wrap {
+  position: relative;
+  margin-bottom: 14px;
+}
+
+.route-strip-wrap::after {
+  content: "";
+  position: absolute;
+  top: 27px;
+  right: 0;
+  bottom: 4px;
+  width: 44px;
+  border-radius: 0 var(--radius) var(--radius) 0;
+  background: linear-gradient(90deg, rgba(247, 243, 234, 0), rgba(247, 243, 234, 0.96));
+  pointer-events: none;
+}
+
+.route-hint {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 5px;
+  min-height: 20px;
+  margin: -2px 2px 7px;
+  color: var(--teal-deep);
+  font-size: 12px;
+  font-weight: 760;
+}
+
+.route-hint::after {
+  content: "→";
+  display: inline-grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  border: 1px solid rgba(31, 111, 118, 0.18);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.75);
+  color: var(--teal);
+  font-size: 14px;
+  line-height: 1;
+}
+
 .route-strip {
   display: grid;
   grid-auto-flow: column;
   grid-auto-columns: minmax(136px, 1fr);
   gap: 8px;
-  margin-bottom: 14px;
   overflow-x: auto;
-  padding-bottom: 3px;
+  padding: 0 36px 3px 0;
   scroll-snap-type: x proximity;
   scrollbar-width: none;
 }
@@ -404,7 +450,7 @@ section {
 
 .day-title {
   margin: 3px 0 4px;
-  font-size: 18px;
+  font-size: 19px;
   line-height: 1.25;
 }
 
@@ -487,16 +533,42 @@ section {
 
 .slot-name {
   color: var(--muted);
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 820;
   padding-top: 2px;
 }
 
 .slot-text {
   color: var(--ink);
-  font-size: 14px;
-  line-height: 1.66;
+  font-size: 15px;
+  line-height: 1.72;
   overflow-wrap: anywhere;
+}
+
+.keyword {
+  display: inline;
+  margin-inline: 1px;
+  padding: 1px 4px 2px;
+  border-radius: 6px;
+  color: inherit;
+  font-weight: 820;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+.keyword-city {
+  color: var(--teal-deep);
+  background: rgba(220, 239, 235, 0.9);
+}
+
+.keyword-transport {
+  color: #7a541d;
+  background: rgba(255, 242, 207, 0.95);
+}
+
+.keyword-place {
+  color: #245c82;
+  background: rgba(234, 244, 251, 0.95);
 }
 
 .slot[data-kind="time"] {
@@ -599,13 +671,19 @@ section {
   }
 
   .stat-grid {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .route-strip {
     grid-template-columns: repeat(6, 1fr);
     grid-auto-flow: initial;
     overflow: visible;
+    padding-right: 0;
+  }
+
+  .route-strip-wrap::after,
+  .route-hint {
+    display: none;
   }
 
   .day-list {
