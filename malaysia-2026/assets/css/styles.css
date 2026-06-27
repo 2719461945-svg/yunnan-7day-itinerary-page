@@ -131,6 +131,7 @@ section {
 .route-step,
 .day-card,
 .info-card,
+.alternative-card,
 .reminder-item,
 .source-item {
   border: 1px solid var(--line);
@@ -276,6 +277,7 @@ section {
 
 .day-list,
 .info-list,
+.alternative-list,
 .reminder-list,
 .source-list {
   display: grid;
@@ -432,12 +434,14 @@ section {
 }
 
 .info-card,
+.alternative-card,
 .reminder-item,
 .source-item {
   padding: 14px;
 }
 
 .info-card h3,
+.alternative-card h3,
 .reminder-item h3 {
   margin: 0 0 8px;
   color: var(--teal);
@@ -455,6 +459,41 @@ section {
 
 .source-item {
   color: var(--muted);
+  overflow-wrap: anywhere;
+}
+
+.alternative-card {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.93), rgba(239, 248, 246, 0.9));
+}
+
+.alternative-card dl {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+}
+
+.alternative-card div {
+  display: grid;
+  grid-template-columns: 46px 1fr;
+  gap: 9px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(217, 229, 225, 0.82);
+}
+
+.alternative-card dt,
+.alternative-card dd {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.alternative-card dt {
+  color: var(--coral);
+  font-weight: 820;
+}
+
+.alternative-card dd {
+  color: var(--ink);
   overflow-wrap: anywhere;
 }
 

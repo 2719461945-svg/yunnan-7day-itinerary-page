@@ -108,6 +108,19 @@ function renderInfo(data) {
     </article>
   `).join("");
 
+  $("#alternativeList").innerHTML = data.alternatives.map((item) => `
+    <article class="alternative-card">
+      <h3>${escapeHtml(item.title)}</h3>
+      <dl>
+        <div><dt>适合</dt><dd>${escapeHtml(item.bestFor)}</dd></div>
+        <div><dt>路线</dt><dd>${escapeHtml(item.route)}</dd></div>
+        <div><dt>耗时</dt><dd>${escapeHtml(item.time)}</dd></div>
+        <div><dt>费用</dt><dd>${escapeHtml(item.cost)}</dd></div>
+        <div><dt>取舍</dt><dd>${escapeHtml(item.tradeoff)}</dd></div>
+      </dl>
+    </article>
+  `).join("");
+
   $("#reminderList").innerHTML = data.reminders.map((item, index) => `
     <article class="reminder-item">
       <h3>提醒 ${index + 1}</h3>
