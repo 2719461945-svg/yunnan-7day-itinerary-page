@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#eef7f5" />
+  <meta name="description" content="2026年8月1日至8月5日，上海出发，吉隆坡进、亚庇出的马来西亚5天旅行方案。" />
+  <title>马来西亚5天旅行方案</title>
+  <link rel="icon" type="image/png" href="assets/images/favicon.png" />
+  <link rel="preload" href="assets/css/styles.css" as="style" />
+  <link rel="preload" href="assets/data/itinerary.json" as="fetch" crossorigin="anonymous" />
+  <link rel="preload" href="assets/images/malaysia-overview.webp" as="image" type="image/webp" />
+  <link rel="stylesheet" href="assets/css/styles.css" />
+</head>
+<body>
+  <div class="scroll-meter" aria-hidden="true"><span id="scrollMeter"></span></div>
+  <div class="app-shell">
+    <header class="hero" id="top">
+      <img src="assets/images/malaysia-overview.webp" alt="马来西亚5天旅行总览图" width="900" height="1200" loading="eager" decoding="async" fetchpriority="high" />
+    </header>
+
+    <main>
+      <section class="overview-band" aria-labelledby="overviewTitle">
+        <div class="section-heading">
+          <h2 id="overviewTitle">路线总览</h2>
+          <span id="routeText">上海 → 吉隆坡 → 亚庇 → 上海</span>
+        </div>
+        <div class="stat-grid" id="statGrid"></div>
+        <div class="route-strip" id="routeStrip" aria-label="基础路线"></div>
+      </section>
+
+      <nav class="control-bar" aria-label="行程快捷导航">
+        <div class="view-tabs" role="tablist" aria-label="日程视图">
+          <button class="view-tab is-active" type="button" data-view="all">完整行程</button>
+          <button class="view-tab" type="button" data-view="stay">只看住宿</button>
+          <button class="view-tab" type="button" data-view="cost">只看费用</button>
+        </div>
+        <div class="day-nav" id="dayNav"></div>
+      </nav>
+
+      <section class="itinerary-section" aria-labelledby="dailyTitle">
+        <div class="section-heading">
+          <h2 id="dailyTitle">每日行程</h2>
+          <span>可折叠 · 可筛选</span>
+        </div>
+        <div class="day-list" id="dayList"></div>
+      </section>
+
+      <section class="info-section" aria-labelledby="lodgingTitle">
+        <div class="section-heading">
+          <h2 id="lodgingTitle">住宿建议</h2>
+          <span>按舒适预算</span>
+        </div>
+        <div class="info-list" id="lodgingList"></div>
+      </section>
+
+      <section class="info-section" aria-labelledby="reminderTitle">
+        <div class="section-heading">
+          <h2 id="reminderTitle">提醒清单</h2>
+          <span>出发前确认</span>
+        </div>
+        <div class="reminder-list" id="reminderList"></div>
+      </section>
+
+      <section class="info-section source-section" aria-labelledby="sourceTitle">
+        <div class="section-heading">
+          <h2 id="sourceTitle">数据口径</h2>
+          <span>价格以实际下单为准</span>
+        </div>
+        <div class="source-list" id="sourceList"></div>
+      </section>
+    </main>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <button class="top-button" id="topButton" type="button" aria-label="回到顶部">↑</button>
+  <script src="assets/js/app.js" defer></script>
+</body>
+</html>
